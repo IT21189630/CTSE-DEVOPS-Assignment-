@@ -5,7 +5,7 @@ const verifyUserRoles = require("../middlewares/verifyRolesMiddleware");
 const verifyJWT = require("../middlewares/verifyJWTMiddleware");
 const user_roles_list = require("../config/userRoles");
 
-// Admin role verification middleware auth
+// Admin role verification middleware
 const verifyAdmin = verifyUserRoles(user_roles_list.Admin);
 
 // For admin routes that require authentication, apply verifyJWT middleware to each route individually
