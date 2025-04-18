@@ -34,6 +34,7 @@ app.use("/api/user-management/auth", require("./routes/auth-register.routes"));
 app.use("/api/product-management/product", require("./routes/product.routes"));
 
 // member 3 routes
+app.use("/api/product-management/orders", require("./routes/order.routes"));
 
 // member 4 routes
 
