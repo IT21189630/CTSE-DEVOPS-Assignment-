@@ -44,34 +44,34 @@ describe("Order Management API", () => {
     testOrderId = testOrder._id;
   });
 
-  after(async () => {
-    await mongoose.disconnect();
-    await server.close();
-  });
+  // after(async () => {
+  //   await mongoose.disconnect();
+  //   await server.close();
+  // });
 
   after(async () => {
-    try {
-      await Order.deleteMany({});
-      await OrderClaim.deleteMany({});
-      await Product.deleteMany({ _id: testProduct._id });
-    } catch (err) {
-      console.error("Error cleaning up test data:", err);
-    }
+    // try {
+    //   await Order.deleteMany({});
+    //   await OrderClaim.deleteMany({});
+    //   await Product.deleteMany({ _id: testProduct._id });
+    // } catch (err) {
+    //   console.error("Error cleaning up test data:", err);
+    // }
 
-    try {
-      await mongoose.connection.close();
+    // try {
+    //   await mongoose.connection.close();
 
-      if (server && typeof server.close === "function") {
-        await new Promise((resolve, reject) => {
-          server.close((err) => {
-            if (err) reject(err);
-            else resolve();
-          });
-        });
-      }
-    } catch (err) {
-      console.error("Error shutting down server or DB connection:", err);
-    }
+    //   if (server && typeof server.close === "function") {
+    //     await new Promise((resolve, reject) => {
+    //       server.close((err) => {
+    //         if (err) reject(err);
+    //         else resolve();
+    //       });
+    //     });
+    //   }
+    // } catch (err) {
+    //   console.error("Error shutting down server or DB connection:", err);
+    // }
   });
 
   describe("GET /api/product-management/orders/available", () => {

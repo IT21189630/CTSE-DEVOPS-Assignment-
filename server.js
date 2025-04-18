@@ -5,7 +5,6 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const errorHandler = require("./middlewares/errorMiddleware");
 const connectDB = require("./config/connectDb");
-const verifyJWT = require("./middlewares/verifyJWTMiddleware");
 
 connectDB();
 const app = express();
@@ -37,8 +36,9 @@ app.use("/api/product-management/product", require("./routes/product.routes"));
 app.use("/api/product-management/orders", require("./routes/order.routes"));
 
 // member 4 routes
+app.use("/api/order-processing/orders", require("./routes/admin-order.routes"));
 
-app.use(verifyJWT);
+// Apply the error handler middleware at the end
 app.use(errorHandler);
 
 let serverPromise = new Promise((resolve, reject) => {
