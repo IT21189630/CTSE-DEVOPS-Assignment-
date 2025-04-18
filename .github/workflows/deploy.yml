@@ -66,13 +66,7 @@ jobs:
           cluster: ${{ secrets.AWS_ECS_CLUSTER_NAME }}
           wait-for-service-stability: true
 
-      - name: Debug secrets
-        run: |
-          echo "Cluster name is set: ${{ secrets.AWS_ECS_CLUSTER_NAME != '' }}"
-          echo "Service name is set: ${{ secrets.AWS_ECS_SERVICE_NAME != '' }}"
-
       - name: Force new deployment
-        if: ${{ secrets.AWS_ECS_CLUSTER_NAME != '' && secrets.AWS_ECS_SERVICE_NAME != '' }}
         run: |
           aws ecs update-service \
             --cluster "${{ secrets.AWS_ECS_CLUSTER_NAME }}" \
@@ -80,7 +74,6 @@ jobs:
             --force-new-deployment
 
       - name: Check deployment status
-        if: ${{ secrets.AWS_ECS_CLUSTER_NAME != '' && secrets.AWS_ECS_SERVICE_NAME != '' }}
         run: |
           aws ecs describe-services \
             --cluster "${{ secrets.AWS_ECS_CLUSTER_NAME }}" \
