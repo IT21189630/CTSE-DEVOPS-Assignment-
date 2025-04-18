@@ -1,7 +1,7 @@
 {
   "family": "ctse-task",
   "networkMode": "awsvpc",
-  "executionRoleArn": "ecsTaskExecutionRole",
+  "executionRoleArn": "arn:aws:iam::897729110098:role/ecsTaskExecutionRole",
   "containerDefinitions": [
     {
       "name": "ctse-op-api",
