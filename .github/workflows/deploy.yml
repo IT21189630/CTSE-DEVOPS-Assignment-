@@ -44,10 +44,6 @@ jobs:
           ECR_REPOSITORY: ${{ secrets.AWS_ECR_REPOSITORY }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          if [ -z "$ECR_REPOSITORY" ]; then
-            echo "Error: ECR_REPOSITORY is not set."
-            exit 1
-          fi
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
@@ -55,7 +51,7 @@ jobs:
         id: render-task
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ secrets.AWS_ECS_TASK_DEFINITION }}
+          task-definition: task-definition.json # Task definition file is at the root
           container-name: ctse-op-api
           image: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.AWS_ECR_REPOSITORY }}:${{ github.sha }}
           environment-variables: |
@@ -65,6 +61,6 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.render-task.outputs.task-definition }}
-          service: ${{ secrets.ECS_SERVICE_NAME }}
-          cluster: ${{ secrets.ECS_CLUSTER_NAME }}
+          service: ${{ secrets.AWS_ECS_SERVICE_NAME }}
+          cluster: ${{ secrets.AWS_ECS_CLUSTER_NAME }}
           wait-for-service-stability: true
