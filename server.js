@@ -32,10 +32,11 @@ app.use("/api/user-management/auth", require("./routes/auth-register.routes"));
 // member 2 routes
 app.use("/api/product-management/product", require("./routes/product.routes"));
 
-// member 3 routes - Admin and Order Status
-app.use("/api/order-processing/orders", require("./routes/admin-order.routes"));
+// member 3 routes
+app.use("/api/product-management/orders", require("./routes/order.routes"));
 
 // member 4 routes
+app.use("/api/order-processing/orders", require("./routes/admin-order.routes"));
 
 // Apply the error handler middleware at the end
 app.use(errorHandler);

@@ -18,7 +18,7 @@ describe("User Registration API", () => {
     await server.close();
   });
 
-  it("should register a new user", (done) => {
+  it("should register a new user", async (done) => {
     const user = {
       email: `user_${Date.now()}@test.com`,
       username: "testuser",
@@ -30,10 +30,19 @@ describe("User Registration API", () => {
       .post("/api/user-management/auth/register/user")
       .send(user)
       .end((err, res) => {
-        expect(res).to.have.status(201);
-        expect(res.body).to.have.property("email", user.email);
-        expect(res.body).to.have.property("username", user.username);
-        done();
+        if (err) {
+          done(err);
+          return;
+        }
+
+        try {
+          expect(res).to.have.status(201);
+          expect(res.body).to.have.property("email", user.email);
+          expect(res.body).to.have.property("username", user.username);
+          done();
+        } catch (error) {
+          done(error);
+        }
       });
   });
 
