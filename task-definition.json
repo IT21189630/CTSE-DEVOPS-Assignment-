@@ -1,0 +1,30 @@
+{
+  "family": "ctse-task",
+  "networkMode": "awsvpc",
+  "executionRoleArn": "ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "ctse-op-api",
+      "image": "897729110098.dkr.ecr.ap-south-1.amazonaws.com/ctse-op-api:latest",
+      "portMappings": [
+        {
+          "containerPort": 4000,
+          "hostPort": 4000,
+          "protocol": "tcp"
+        }
+      ],
+      "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/ctse-api",
+          "awslogs-region": "ap-south-1",
+          "awslogs-stream-prefix": "ctse-api"
+        }
+      }
+    }
+  ],
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "256",
+  "memory": "512"
+}
