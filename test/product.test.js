@@ -42,7 +42,7 @@ describe("Product and Order API", () => {
       userId: "testUser123",
       products: [
         {
-          productId: "6800d9caf6788ea2acc122fd", // Replace with a valid Product ID
+          productId: "68020f977348ab2429443f83", // Replace with a valid Product ID
           quantity: 2,
         },
       ],
@@ -63,7 +63,7 @@ describe("Product and Order API", () => {
 
   // Test for marking an order as received
   it("should mark an order as received", (done) => {
-    const orderId = "6800db61f6788ea2acc12301"; // Replace with a valid Order ID
+    const orderId = "6802300de2ef8d8047f57c0d"; // Replace with a valid Order ID
 
     chai
       .request(app)
@@ -78,7 +78,7 @@ describe("Product and Order API", () => {
 
   // Test for fetching all orders by a specific user
   it("should fetch all orders for a specific user", (done) => {
-    const userId = "user123"; // Replace with a valid User ID
+    const userId = "testUser123"; // Replace with a valid User ID
 
     chai
       .request(app)

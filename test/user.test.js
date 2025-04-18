@@ -18,7 +18,7 @@ describe("User Registration API", () => {
     await server.close();
   });
 
-  it("should register a new user", async (done) => {
+  it("should register a new user", (done) => {
     const user = {
       email: `user_${Date.now()}@test.com`,
       username: "testuser",

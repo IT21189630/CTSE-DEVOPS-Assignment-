@@ -56,8 +56,8 @@ describe("Admin Order Management API", () => {
     await Order.deleteOne({ _id: testOrderId });
     await AdminNotification.deleteMany({ orderId: testOrderId });
     
-    await mongoose.disconnect();
-    await server.close();
+    // await mongoose.disconnect();
+    // await server.close();
   });
 
   // Test GET order by ID
