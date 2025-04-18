@@ -57,6 +57,27 @@ jobs:
           environment-variables: |
             MONGO_DB_URI=${{ secrets.MONGO_DB_URI }}
 
+      - name: Register the new task definition with ECS
+        run: |
+          TASK_DEFINITION=$(aws ecs register-task-definition \
+            --family ctse-task \
+            --network-mode awsvpc \
+            --execution-role-arn ecsTaskExecutionRole \
+            --container-definitions file://task-definition.json \
+            --requires-compatibilities FARGATE \
+            --cpu 256 \
+            --memory 512)
+          echo $TASK_DEFINITION
+
+      - name: Update ECS service with new task definition
+        run: |
+          TASK_DEFINITION_REVISION=$(echo $TASK_DEFINITION | jq -r '.taskDefinition.revision')
+          aws ecs update-service \
+            --cluster ${{ secrets.AWS_ECS_CLUSTER_NAME }} \
+            --service ${{ secrets.AWS_ECS_SERVICE_NAME }} \
+            --task-definition ctse-task:$TASK_DEFINITION_REVISION \
+            --desired-count 1
+
       - name: Deploy to ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
