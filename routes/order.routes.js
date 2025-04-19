@@ -13,7 +13,7 @@ router.get("/available", getAllAvailableOrders);
 // Route to get all orders (without regarding status)
 router.get("/", getAllOrders);
 
-// Route for customers to place an order
+// Route for claim orders for drivers before delivery
 router.post("/claim", createOrderClaim);
 
 // Route for update order status as delivered
