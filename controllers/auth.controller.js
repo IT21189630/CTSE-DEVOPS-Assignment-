@@ -16,8 +16,9 @@ const loginUser = async (req, res) => {
 
   try {
     let foundUser;
+    let query = { email: req.body.email.toString() };
     // find if entered email and password belongs to a user
-    foundUser = await userModel.findOne({ email }).exec();
+    foundUser = await userModel.findOne(query).exec();
 
     //check if there is a matching user
     if (!foundUser) {
@@ -36,7 +37,7 @@ const loginUser = async (req, res) => {
       const refresh_token = generateRefreshToken(foundUser);
 
       foundUser.refresh_token = refresh_token;
-      const result = await foundUser.save();
+      await foundUser.save();
 
       res.cookie("jwt", refresh_token, {
         httpOnly: true,
