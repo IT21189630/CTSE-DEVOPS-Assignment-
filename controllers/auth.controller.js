@@ -16,8 +16,14 @@ const loginUser = async (req, res) => {
 
   try {
     let foundUser;
-    // find if entered email and password belongs to a user
-    foundUser = await userModel.findOne({ email }).exec();
+    if (
+      typeof email !== "string" ||
+      email.length > 100 ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+    ) {
+      return res.status(400).json({ error: "Invalid email format" });
+    }
+    foundUser = await userModel.findOne({ email: email.trim() }).exec();
 
     //check if there is a matching user
     if (!foundUser) {
@@ -47,7 +53,7 @@ const loginUser = async (req, res) => {
         .status(202)
         .json({ access_token, username, _id, profile_picture, user_role });
     } else {
-      return res.status(400).json({ error: "invalid username or password" });
+      return res.status(401).json({ error: "invalid username or password" });
     }
   } catch (error) {
     console.error(error);
