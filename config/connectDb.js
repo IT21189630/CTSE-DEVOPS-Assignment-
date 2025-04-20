@@ -4,7 +4,6 @@ const connectDB = async () => {
   try {
     // Debug: Check if env vars are loading
     console.log("Environment:", {
-      NODE_ENV: process.env.NODE_ENV,
       MONGO_DB_URI: process.env.MONGO_DB_URI ? "***exists***" : "MISSING",
     });
 
