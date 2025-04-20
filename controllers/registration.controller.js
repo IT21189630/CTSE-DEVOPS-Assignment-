@@ -19,7 +19,8 @@ const createNewUser = async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, saltRounds);
 
   //check provided email is already registered as any role
-  let duplicate = await userModel.findOne({ email }).exec();
+  let query = { email: req.body.email.toString() };
+  let duplicate = await userModel.findOne(query).exec();
 
   if (duplicate) {
     return res
@@ -28,12 +29,13 @@ const createNewUser = async (req, res) => {
   }
 
   try {
-    const result = await userModel.create({
-      email,
-      username,
+    let objQuery = {
+      email: req.body.email.toString(),
+      username: req.body.username.toString(),
       password: hashedPassword,
       profile_picture: student_pic,
-    });
+    };
+    const result = await userModel.create(objQuery);
 
     if (result) {
       const user_role = result.user_role;
