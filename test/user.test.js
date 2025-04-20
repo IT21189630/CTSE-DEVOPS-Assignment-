@@ -22,7 +22,7 @@ describe("User Registration API", () => {
     const user = {
       email: `user_${Date.now()}@test.com`,
       username: "testuser",
-      password: "secure123",
+      password: `P@ss${Date.now()}`,
     };
 
     chai
