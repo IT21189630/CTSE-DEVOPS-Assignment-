@@ -11,7 +11,7 @@ const verifyAdmin = verifyUserRoles(user_roles_list.Admin);
 // For admin routes that require authentication, apply verifyJWT middleware to each route individually
 // instead of globally in server.js
 
-// PUT /orders/{orderId}/status - Admin confirms the order
+// Admin confirms the order
 router.put(
   "/:orderId/status",
   verifyJWT,
