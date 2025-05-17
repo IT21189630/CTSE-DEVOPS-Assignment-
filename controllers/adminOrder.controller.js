@@ -1,6 +1,8 @@
 const Order = require("../models/order.model");
 const mongoose = require("mongoose");
 
+// minor change
+
 // Use the AdminNotification model from separate file
 const AdminNotification = require("../models/adminNotification.model");
 
@@ -21,11 +23,18 @@ const updateOrderStatus = async (req, res) => {
     }
 
     // Valid statuses for orders
-    const validStatuses = ["placed", "confirmed", "processing", "shipped", "delivered", "cancelled"];
+    const validStatuses = [
+      "placed",
+      "confirmed",
+      "processing",
+      "shipped",
+      "delivered",
+      "cancelled",
+    ];
     if (!validStatuses.includes(status)) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         message: "Invalid status",
-        validStatuses
+        validStatuses,
       });
     }
 
@@ -43,7 +52,9 @@ const updateOrderStatus = async (req, res) => {
     return res.status(200).json(updatedOrder);
   } catch (error) {
     console.error("Error updating order status:", error);
-    return res.status(500).json({ message: "Internal server error", error: error.message });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 
@@ -55,7 +66,9 @@ const notifyAdmin = async (req, res) => {
 
     // Validate input
     if (!message) {
-      return res.status(400).json({ message: "Notification message is required" });
+      return res
+        .status(400)
+        .json({ message: "Notification message is required" });
     }
 
     // Validate orderId is a valid ObjectId
@@ -72,18 +85,20 @@ const notifyAdmin = async (req, res) => {
     // Create notification
     const notification = new AdminNotification({
       orderId,
-      message
+      message,
     });
 
     await notification.save();
 
     return res.status(201).json({
       message: "Admin notification saved successfully",
-      notification
+      notification,
     });
   } catch (error) {
     console.error("Error notifying admin:", error);
-    return res.status(500).json({ message: "Internal server error", error: error.message });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 
@@ -99,7 +114,7 @@ const cancelOrder = async (req, res) => {
 
     // Find the order
     const order = await Order.findById(orderId);
-    
+
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
@@ -116,18 +131,20 @@ const cancelOrder = async (req, res) => {
     // Create a notification that order was cancelled
     const notification = new AdminNotification({
       orderId,
-      message: `Order ${orderId} has been cancelled`
+      message: `Order ${orderId} has been cancelled`,
     });
-    
+
     await notification.save();
 
-    return res.status(200).json({ 
+    return res.status(200).json({
       message: "Order cancelled successfully",
-      order
+      order,
     });
   } catch (error) {
     console.error("Error cancelling order:", error);
-    return res.status(500).json({ message: "Internal server error", error: error.message });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 
@@ -143,7 +160,7 @@ const getOrderById = async (req, res) => {
 
     // Find the order and populate product details
     const order = await Order.findById(orderId).populate("products.productId");
-    
+
     if (!order) {
       return res.status(404).json({ message: "Order not found" });
     }
@@ -151,7 +168,9 @@ const getOrderById = async (req, res) => {
     return res.status(200).json(order);
   } catch (error) {
     console.error("Error fetching order:", error);
-    return res.status(500).json({ message: "Internal server error", error: error.message });
+    return res
+      .status(500)
+      .json({ message: "Internal server error", error: error.message });
   }
 };
 
@@ -160,5 +179,5 @@ module.exports = {
   notifyAdmin,
   cancelOrder,
   getOrderById,
-  AdminNotification // Export the model for testing
+  AdminNotification, // Export the model for testing
 };
