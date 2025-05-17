@@ -1,23 +1,14 @@
 const mongoose = require("mongoose");
 
 const connectDB = async () => {
+  const uri =
+    "mongodb+srv://maleeshaweerasinghe27233:CSTE_2025@csteassignment.qzo29xs.mongodb.net/?retryWrites=true&w=majority&appName=CSTEassignment";
+  if (!uri)
+    throw new Error("❌ MONGO_DB_URI is not defined in environment variables!");
+
   try {
-    // Debug: Check if env vars are loading
-    console.log("Environment:", {
-      MONGO_DB_URI: process.env.MONGO_DB_URI ? "***exists***" : "MISSING",
-    });
-
-    if (!process.env.MONGO_DB_URI) {
-      throw new Error(
-        "❌ MONGO_DB_URI is not defined in environment variables!"
-      );
-    }
-
-    await mongoose.connect(process.env.MONGO_DB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log("✅ MongoDB Connected");
+    const conObj = await mongoose.connect(uri);
+    console.log(`✅ Connected to the host: ${conObj.connection.host}`);
   } catch (error) {
     console.error("❌ MongoDB Connection Error:", error.message);
     process.exit(1);
