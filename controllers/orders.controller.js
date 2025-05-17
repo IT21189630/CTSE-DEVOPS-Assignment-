@@ -2,8 +2,6 @@ const Order = require("../models/order.model");
 const OrderClaim = require("../models/order-claim.model");
 const asyncHandler = require("express-async-handler");
 
-// new feature to be added in here
-
 // get all available orders
 const getAllAvailableOrders = asyncHandler(async (req, res) => {
   const availableOrders = await Order.find({
